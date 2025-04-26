@@ -156,19 +156,26 @@ st.write("You selected:", option)
 
 
 #4. plotly
-date/time == "Date/Time"
+data["date/time"] == "Date/Time"
+import pandas as pd
+import numpy as np
+import streamlit as st
+import plotly.express as px
 
-# data = pd.DataFrame({
-#     "Date/Time": pd.date_range("2023-01-01", periods=100, freq="H"),
-#     "lat": np.random.uniform(13.70, 13.90, size=100),
-#     "lon": np.random.uniform(100.40, 100.60, size=100)
-# })
+# Mock data (ตัวอย่างตามที่บอกว่าชื่อ column ตัวเล็ก)
+data = pd.DataFrame({
+    "date/time": pd.date_range("2023-01-01", periods=100, freq="H"),
+    "lat": np.random.uniform(13.70, 13.90, size=100),
+    "lon": np.random.uniform(100.40, 100.60, size=100)
+})
+
+DATE_COLUMN = "date/time"  # ชื่อคอลัมน์ตัวเล็ก
 
 st.subheader('Raw data')
 st.write(data)
 
 st.subheader('Number of pickups by hour')
-hist_values = data[date/time].dt.hour.value_counts().sort_index()
+hist_values = data[DATE_COLUMN].dt.hour.value_counts().sort_index()
 
 fig_bar = px.bar(
     x=hist_values.index,
@@ -185,16 +192,17 @@ if "lat" in data.columns and "lon" in data.columns:
         data,
         lat="lat",
         lon="lon",
-        hover_name=date/time,
-        hover_data={date/time: True},
+        hover_name=DATE_COLUMN,
+        hover_data={DATE_COLUMN: True},
         zoom=10,
         height=500
     )
-    fig_map.update_layout(mapbox_style="open-street-map")  #mapbox_style="carto-positron"
+    fig_map.update_layout(mapbox_style="open-street-map")
     fig_map.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig_map, use_container_width=True)
 else:
     st.error("Data is missing 'lat' and 'lon' columns.")
+
 
 
 
