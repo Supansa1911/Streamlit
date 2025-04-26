@@ -57,7 +57,7 @@ chart_data = pd.DataFrame(
 
 
 # 3D Map ด้วย HexagonLayer
-st.subheader('3D Map with HexagonLayer')
+st.subheader('3D Map with Hexagon Layer')
 st.pydeck_chart(
     pdk.Deck(
         initial_view_state=pdk.ViewState(
@@ -82,7 +82,7 @@ st.pydeck_chart(
 )
 
 
-st.subheader('3D Map with ScatterplotLayer')
+st.subheader('3D Map with Scatter plot Layer')
 st.pydeck_chart(
     pdk.Deck(
         initial_view_state=pdk.ViewState(
@@ -105,7 +105,7 @@ st.pydeck_chart(
 )
 
 
-st.subheader('3D Map with ColumnLayer')
+st.subheader('3D Map with Column Layer')
 st.pydeck_chart(
     pdk.Deck(
         initial_view_state=pdk.ViewState(
@@ -158,8 +158,8 @@ st.write("You selected:", option)
 #4. plotly
 data = pd.DataFrame({
     "date/time": pd.date_range("2023-01-01", periods=100, freq="H"),
-    "lat": np.random.uniform(40.70, 40.80, size=100),  # lat ของ New York
-    "lon": np.random.uniform(-74.00, -73.90, size=100)  # lon ของ New York
+    "lat": np.random.uniform(40.70, 40.80, size=100),  
+    "lon": np.random.uniform(-74.00, -73.90, size=100)  
 })
 
 DATE_COLUMN = "date/time"
@@ -180,7 +180,7 @@ fig_bar = px.bar(
 st.plotly_chart(fig_bar, use_container_width=True)
 
 # Map of all pickups (แสดงบนแผนที่ New York)
-st.subheader('Map of all pickups')
+st.subheader('plotly Map of all pickups')
 
 if "lat" in data.columns and "lon" in data.columns:
     fig_map = px.scatter_mapbox(
