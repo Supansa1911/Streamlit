@@ -136,7 +136,7 @@ d = st.date_input("Date input", datetime.date(2019, 7, 6))
 st.write("Date is:", d)
 
 #3. selectbox
-#option = st.selectbox(
+option = st.selectbox(
     "Date time selested",
     df["Date/Time"].dt.strftime("%Y-%m-%d %H:%M:%S"),
     index=None,
