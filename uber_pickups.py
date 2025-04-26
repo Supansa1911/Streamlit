@@ -49,7 +49,6 @@ st.map(filtered_data)
 
 
 #1. PyDeck, convert from 2D to 3D map
-st.subheader('3D Map')
 # สร้างข้อมูลสุ่ม
 chart_data = pd.DataFrame(
     np.random.randn(1000, 2) / [50, 50] + [40.75, -73.98],
@@ -82,7 +81,7 @@ st.pydeck_chart(
 )
 
 
-#test
+st.subheader('3D Map with ScatterplotLayer')
 st.pydeck_chart(
     pdk.Deck(
         initial_view_state=pdk.ViewState(
@@ -104,6 +103,7 @@ st.pydeck_chart(
     )
 )
 
+st.subheader('3D Map with ColumnLayer')
 st.pydeck_chart(
     pdk.Deck(
         initial_view_state=pdk.ViewState(
@@ -148,9 +148,7 @@ df = pd.DataFrame({
     "Date/Time": pd.date_range(start="2023-01-01", periods=10, freq='D')
 })
 
-# 2. date input
-d = st.date_input("Date input", datetime.date(2023, 1, 1))
-st.write("Date is:", d)
+
 
 # 3. selectbox จากคอลัมน์ Date/Time
 ##option = st.selectbox(
