@@ -156,26 +156,20 @@ st.write("You selected:", option)
 
 
 #4. plotly
-data["date/time"] == "Date/Time"
-import pandas as pd
-import numpy as np
-import streamlit as st
-import plotly.express as px
-
-# Mock data (ตัวอย่างตามที่บอกว่าชื่อ column ตัวเล็ก)
 data = pd.DataFrame({
     "date/time": pd.date_range("2023-01-01", periods=100, freq="H"),
     "lat": np.random.uniform(13.70, 13.90, size=100),
     "lon": np.random.uniform(100.40, 100.60, size=100)
 })
 
-DATE_COLUMN = "date/time"  # ชื่อคอลัมน์ตัวเล็ก
+DATE_COLUMN = "date/time"  # ใช้คอลัมน์ชื่อ 'date/time'
 
 st.subheader('Raw data')
 st.write(data)
 
+# # Number of pickups by hour (ใช้ plotly bar chart)
 st.subheader('Number of pickups by hour')
-hist_values = data[DATE_COLUMN].dt.hour.value_counts().sort_index()
+hist_values = data[DATE_COLUMN].dt.hour.value_counts().sort_index()  # จำนวนการ pickup ตามชั่วโมง
 
 fig_bar = px.bar(
     x=hist_values.index,
@@ -185,20 +179,22 @@ fig_bar = px.bar(
 )
 st.plotly_chart(fig_bar, use_container_width=True)
 
+# # Map of all pickups (แสดงบน Map)
 st.subheader('Map of all pickups')
 
 if "lat" in data.columns and "lon" in data.columns:
+    # สร้างกราฟ map โดยใช้ Plotly Mapbox
     fig_map = px.scatter_mapbox(
         data,
         lat="lat",
         lon="lon",
-        hover_name=DATE_COLUMN,
+        hover_name=DATE_COLUMN,  # เมื่อ hover ข้อมูลจะแสดงวันที่
         hover_data={DATE_COLUMN: True},
         zoom=10,
         height=500
     )
-    fig_map.update_layout(mapbox_style="open-street-map")
-    fig_map.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    fig_map.update_layout(mapbox_style="open-street-map")  # ใช้ mapbox แบบ open-street-map
+    fig_map.update_layout(margin={"r":0,"t":0,"l":0,"b":0})  # ปรับขอบให้พอดีกับหน้าจอ
     st.plotly_chart(fig_map, use_container_width=True)
 else:
     st.error("Data is missing 'lat' and 'lon' columns.")
