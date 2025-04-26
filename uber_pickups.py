@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import pydeck as pdk
 import datetime
+import plotly.express as px
 
 st.title('Uber pickups in NYC')
 
@@ -37,7 +38,6 @@ hist_values = np.histogram(
 
 st.bar_chart(hist_values)
 
-
 st.subheader('Map of all pickups')
 st.map(data)
 
@@ -54,6 +54,7 @@ chart_data = pd.DataFrame(
     np.random.randn(1000, 2) / [50, 50] + [40.75, -73.98],
     columns=["lat", "lon"],
 )
+
 
 # 3D Map ด้วย HexagonLayer
 st.subheader('3D Map with HexagonLayer')
@@ -103,6 +104,7 @@ st.pydeck_chart(
     )
 )
 
+
 st.subheader('3D Map with ColumnLayer')
 st.pydeck_chart(
     pdk.Deck(
@@ -127,13 +129,18 @@ st.pydeck_chart(
     )
 )
 
+
+
+
 df = pd.DataFrame({
     "Date/Time": pd.date_range(start="2023-01-01", periods=10, freq='D')
 })
-
 #2. dete input
 d = st.date_input("Date input", datetime.date(2019, 7, 6))
 st.write("Date is:", d)
+
+
+
 
 #3. selectbox
 option = st.selectbox(
@@ -146,7 +153,26 @@ option = st.selectbox(
 st.write("You selected:", option)
 
 
+
+
 #4. plotly
+st.subheader("Define a custom colorscale")
+df = px.data.iris()
+fig = px.scatter(
+    df,
+    x="sepal_width",
+    y="sepal_length",
+    color="sepal_length",
+    color_continuous_scale="reds",
+)
+
+tab1, tab2 = st.tabs(["Streamlit theme (default)", "Plotly native theme"])
+with tab1:
+    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+with tab2:
+    st.plotly_chart(fig, theme=None, use_container_width=True)
+
+
 
 
 #5. Click a button to increase the number x in the folling message, "This page has run X times."
