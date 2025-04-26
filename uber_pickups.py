@@ -156,7 +156,7 @@ st.write("You selected:", option)
 
 
 #4. plotly
-date/time = "Date/Time"
+date/time == "Date/Time"
 
 # data = pd.DataFrame({
 #     "Date/Time": pd.date_range("2023-01-01", periods=100, freq="H"),
