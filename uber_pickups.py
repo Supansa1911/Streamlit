@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pydeck as pdk
+import datetime
 
 st.title('Uber pickups in NYC')
 
@@ -40,6 +41,7 @@ st.bar_chart(hist_values)
 st.subheader('Map of all pickups')
 st.map(data)
 
+st.subheader('Map of time filter')
 hour_to_filter = st.slider('hour', 0, 23, 17)  # min: 0h, max: 23h, default: 17h
 filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
 st.subheader(f'Map of all pickups at {hour_to_filter}:00')
@@ -47,6 +49,7 @@ st.map(filtered_data)
 
 
 #1. PyDeck, convert from 2D to 3D map
+st.subheader('3D Map')
 # สร้างข้อมูลสุ่ม
 chart_data = pd.DataFrame(
     np.random.randn(1000, 2) / [50, 50] + [40.75, -73.98],
@@ -54,6 +57,7 @@ chart_data = pd.DataFrame(
 )
 
 # 3D Map ด้วย HexagonLayer
+st.subheader('3D Map with HexagonLayer')
 st.pydeck_chart(
     pdk.Deck(
         initial_view_state=pdk.ViewState(
@@ -125,22 +129,60 @@ st.pydeck_chart(
 
 
 #2. dete input
-import datetime
-import streamlit as st
-
 d = st.date_input("Date input", datetime.date(2019, 7, 6))
 st.write("Date is:", d)
 
 
 #3. selectbox
 option = st.selectbox(
-    "How would you like to be contacted?",
-    ("Date/Time", "lat", "lon", "base"),
+    "Date time selested",
+    ("Date/Time"),
     index=None,
     placeholder="Select contact method...",
 )
 
 st.write("You selected:", option)
+
+
+df = pd.DataFrame({
+    "Date/Time": pd.date_range(start="2023-01-01", periods=10, freq='D')
+})
+
+# 2. date input
+d = st.date_input("Date input", datetime.date(2023, 1, 1))
+st.write("Date is:", d)
+
+# 3. selectbox จากคอลัมน์ Date/Time
+##option = st.selectbox(
+##    "Date time selected",
+##    df["Date/Time"].dt.strftime("%Y-%m-%d %H:%M:%S"),  # แปลงให้เป็น string เพื่อแสดงสวยงาม
+##    index=None,
+##    placeholder="Select date/time...",
+##)
+
+##st.write("You selected:", option)
+
+####
+# สมมติว่าคุณมี DataFrame ที่ชื่อว่า df
+# ตัวอย่างข้อมูล
+df = pd.DataFrame({
+    "Date/Time": pd.date_range(start="2023-01-01", periods=10, freq='D')
+})
+
+# 2. date input
+d = st.date_input("Date input", datetime.date(2023, 1, 1))
+st.write("Date is:", d)
+
+# 3. selectbox จากคอลัมน์ Date/Time
+option = st.selectbox(
+    "Date time selected",
+    df["Date/Time"].dt.strftime("%Y-%m-%d %H:%M:%S"),  # แปลงให้เป็น string เพื่อแสดงสวยงาม
+    index=None,
+    placeholder="Select date/time...",
+)
+
+st.write("You selected:", option)
+####
 
 
 #4. plotly
