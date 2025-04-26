@@ -156,21 +156,45 @@ st.write("You selected:", option)
 
 
 #4. plotly
-st.subheader("Define a custom colorscale")
-df = px.data.iris()
-fig = px.scatter(
-    df,
-    x="sepal_width",
-    y="sepal_length",
-    color="sepal_length",
-    color_continuous_scale="reds",
-)
+date/time = "Date/Time"
 
-tab1, tab2 = st.tabs(["Streamlit theme (default)", "Plotly native theme"])
-with tab1:
-    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
-with tab2:
-    st.plotly_chart(fig, theme=None, use_container_width=True)
+# data = pd.DataFrame({
+#     "Date/Time": pd.date_range("2023-01-01", periods=100, freq="H"),
+#     "lat": np.random.uniform(13.70, 13.90, size=100),
+#     "lon": np.random.uniform(100.40, 100.60, size=100)
+# })
+
+st.subheader('Raw data')
+st.write(data)
+
+st.subheader('Number of pickups by hour')
+hist_values = data[date/time].dt.hour.value_counts().sort_index()
+
+fig_bar = px.bar(
+    x=hist_values.index,
+    y=hist_values.values,
+    labels={"x": "Hour", "y": "Number of pickups"},
+    title="Pickups by Hour",
+)
+st.plotly_chart(fig_bar, use_container_width=True)
+
+st.subheader('Map of all pickups')
+
+if "lat" in data.columns and "lon" in data.columns:
+    fig_map = px.scatter_mapbox(
+        data,
+        lat="lat",
+        lon="lon",
+        hover_name=date/time,
+        hover_data={date/time: True},
+        zoom=10,
+        height=500
+    )
+    fig_map.update_layout(mapbox_style="open-street-map")  #mapbox_style="carto-positron"
+    fig_map.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    st.plotly_chart(fig_map, use_container_width=True)
+else:
+    st.error("Data is missing 'lat' and 'lon' columns.")
 
 
 
