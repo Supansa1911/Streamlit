@@ -127,60 +127,23 @@ st.pydeck_chart(
     )
 )
 
+df = pd.DataFrame({
+    "Date/Time": pd.date_range(start="2023-01-01", periods=10, freq='D')
+})
 
 #2. dete input
 d = st.date_input("Date input", datetime.date(2019, 7, 6))
 st.write("Date is:", d)
 
-
 #3. selectbox
-option = st.selectbox(
+#option = st.selectbox(
     "Date time selested",
-    ("Date/Time"),
-    index=None,
-    placeholder="Select contact method...",
-)
-
-st.write("You selected:", option)
-
-
-df = pd.DataFrame({
-    "Date/Time": pd.date_range(start="2023-01-01", periods=10, freq='D')
-})
-
-
-
-# 3. selectbox จากคอลัมน์ Date/Time
-##option = st.selectbox(
-##    "Date time selected",
-##    df["Date/Time"].dt.strftime("%Y-%m-%d %H:%M:%S"),  # แปลงให้เป็น string เพื่อแสดงสวยงาม
-##    index=None,
-##    placeholder="Select date/time...",
-##)
-
-##st.write("You selected:", option)
-
-####
-# สมมติว่าคุณมี DataFrame ที่ชื่อว่า df
-# ตัวอย่างข้อมูล
-df = pd.DataFrame({
-    "Date/Time": pd.date_range(start="2023-01-01", periods=10, freq='D')
-})
-
-# 2. date input
-d = st.date_input("Date input", datetime.date(2023, 1, 1))
-st.write("Date is:", d)
-
-# 3. selectbox จากคอลัมน์ Date/Time
-option = st.selectbox(
-    "Date time selected",
-    df["Date/Time"].dt.strftime("%Y-%m-%d %H:%M:%S"),  # แปลงให้เป็น string เพื่อแสดงสวยงาม
+    df["Date/Time"].dt.strftime("%Y-%m-%d %H:%M:%S"),
     index=None,
     placeholder="Select date/time...",
 )
 
 st.write("You selected:", option)
-####
 
 
 #4. plotly
